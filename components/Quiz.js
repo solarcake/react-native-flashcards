@@ -103,6 +103,7 @@ class Quiz extends React.Component {
                     </View>
                 :    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
                        <Text style={{fontSize:50}}>Congrats, you have finished the quiz. Your score is {(this.state.correctAnswers / questions.length) * 100} %</Text>
+                       <TouchableOpacity style={styles.correctBtn} onPress={()=> this.props.navigation.navigate('DeckList')}><Text style={{color: white, textAlign: 'center'}}>Take me back</Text></TouchableOpacity>
                     </View>
                 }
             </View>
