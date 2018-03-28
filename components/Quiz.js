@@ -24,6 +24,15 @@ class Quiz extends React.Component {
           inputRange: [0, 180],
           outputRange: ['180deg', '360deg']
         })
+
+        this.frontOpacity = this.animatedValue.interpolate({
+            inputRange: [89, 90],
+            outputRange: [1, 0]
+          })
+          this.backOpacity = this.animatedValue.interpolate({
+            inputRange: [89, 90],
+            outputRange: [0, 1]
+          })
     }
 
     flipCard() {
@@ -74,22 +83,22 @@ class Quiz extends React.Component {
                         <View style={{flex: 1, alignItems: 'flex-start', marginBottom:100}}>
                             <Text>{this.state.currentQuestion + 1} / {questions.length}</Text>
                         </View>
-                        <View style={{alignItems: 'center', justifyContent: 'center'}}>  
-                            <Animated.View style={[styles.flipCard, frontAnimatedStyle]}>
+                        <View style={{alignItems: 'center', justifyContent: 'center'}}>
+                            <Animated.View style={[styles.flipCard, frontAnimatedStyle, {opacity: this.frontOpacity}]}>
                                 <Text style={{fontSize:50}}>{questions[this.state.currentQuestion].question}</Text>
                                 <TouchableOpacity onPress={() => this.flipCard()}>
                                     <Text style={styles.questionLabel}>Answer</Text>
                                 </TouchableOpacity>
                             </Animated.View>
-                            <Animated.View style={[styles.flipCard, backAnimatedStyle]}>
+                            <Animated.View style={[styles.flipCard, backAnimatedStyle, {opacity: this.backOpacity,  position: 'absolute', top: 0}]}>
                                 <Text style={{fontSize:50}}>{questions[this.state.currentQuestion].answer}</Text>
                                     <TouchableOpacity onPress={() => this.flipCard()}>
                                         <Text style={styles.questionLabel}>Question</Text>
                                     </TouchableOpacity>
-                                </Animated.View>
-                                                   
-                                <TouchableOpacity style={styles.correctBtn} onPress={()=> this.processQuestionResult(true)}><Text style={{color: white, textAlign: 'center'}}>CORRECT</Text></TouchableOpacity>
-                                <TouchableOpacity  style={styles.incorrectBtn} onPress={()=> this.processQuestionResult(false)}><Text style={{color: white, textAlign: 'center'}}>INCORRECT</Text></TouchableOpacity>
+                            </Animated.View>
+                                           
+                            <TouchableOpacity style={styles.correctBtn} onPress={()=> this.processQuestionResult(true)}><Text style={{color: white, textAlign: 'center'}}>CORRECT</Text></TouchableOpacity>
+                            <TouchableOpacity  style={styles.incorrectBtn} onPress={()=> this.processQuestionResult(false)}><Text style={{color: white, textAlign: 'center'}}>INCORRECT</Text></TouchableOpacity>
                         </View>
                     </View>
                 :    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
