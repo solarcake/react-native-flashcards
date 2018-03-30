@@ -72,26 +72,27 @@ class Quiz extends React.Component {
               { rotateY: this.backInterpolate }
             ]
           }
-        const questions =  this.props.deck.questions;
-        const deckId = this.props.deckId;
-        const isQuizEnd =  this.state.currentQuestion >= questions.length;
+        const {deckId, deck} =  this.props;
+        const {questions} = deck;
+        const {currentQuestion, correctAnswers} = this.state;
+        const isQuizEnd =  currentQuestion >= questions.length;
 
         return (
             <View style={styles.container}>
                 {!isQuizEnd ?
                     <View>
                         <View style={{flex: 1, alignItems: 'flex-start', marginBottom:100}}>
-                            <Text>{this.state.currentQuestion + 1} / {questions.length}</Text>
+                            <Text>{currentQuestion + 1} / {questions.length}</Text>
                         </View>
                         <View style={{alignItems: 'center', justifyContent: 'center'}}>
                             <Animated.View style={[styles.flipCard, frontAnimatedStyle, {opacity: this.frontOpacity}]}>
-                                <Text style={{fontSize:50}}>{questions[this.state.currentQuestion].question}</Text>
+                                <Text style={{fontSize:50}}>{questions[currentQuestion].question}</Text>
                                 <TouchableOpacity onPress={() => this.flipCard()}>
                                     <Text style={styles.questionLabel}>Answer</Text>
                                 </TouchableOpacity>
                             </Animated.View>
                             <Animated.View style={[styles.flipCard, backAnimatedStyle, {opacity: this.backOpacity,  position: 'absolute', top: 0}]}>
-                                <Text style={{fontSize:50}}>{questions[this.state.currentQuestion].answer}</Text>
+                                <Text style={{fontSize:50}}>{questions[currentQuestion].answer}</Text>
                                     <TouchableOpacity onPress={() => this.flipCard()}>
                                         <Text style={styles.questionLabel}>Question</Text>
                                     </TouchableOpacity>
@@ -102,8 +103,9 @@ class Quiz extends React.Component {
                         </View>
                     </View>
                 :    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                       <Text style={{fontSize:50}}>Congrats, you have finished the quiz. Your score is {(this.state.correctAnswers / questions.length) * 100} %</Text>
-                       <TouchableOpacity style={styles.correctBtn} onPress={()=> this.props.navigation.navigate('DeckList')}><Text style={{color: white, textAlign: 'center'}}>Take me back</Text></TouchableOpacity>
+                       <Text style={{fontSize:50}}>Congrats, you have finished the quiz. Your score is {(correctAnswers / questions.length) * 100} %</Text>
+                       <TouchableOpacity style={styles.correctBtn} onPress={()=> this.props.navigation.navigate('Quiz',{deckId: deckId})}><Text style={{color: white, textAlign: 'center'}}>Restart Quiz</Text></TouchableOpacity>
+                       <TouchableOpacity style={styles.correctBtn} onPress={()=> this.props.navigation.navigate('DeckView', {deckId: deckId})}><Text style={{color: white, textAlign: 'center'}}>Back to Deck</Text></TouchableOpacity>
                     </View>
                 }
             </View>

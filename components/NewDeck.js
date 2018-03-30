@@ -18,9 +18,9 @@ class NewDeck extends React.Component {
                 'Deck message',
                 'New Deck has been added',
                 [
-                  {text: 'Go to Deck List', onPress: () => {
+                  {text: 'View Deck', onPress: () => {
                       this.titleInput.clear()
-                      this.props.navigation.navigate('DeckList')
+                      this.props.navigation.navigate('DeckView', {deckId: title})
                   }},
                   {text: 'Add More Decks', onPress: () => this.titleInput.clear()},
                 ],

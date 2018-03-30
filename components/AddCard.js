@@ -28,7 +28,7 @@ class AddCard extends React.Component {
                     'Card Message',
                     'New Card has been added',
                     [
-                      {text: 'Deck View', onPress: () => {
+                      {text: 'View Deck', onPress: () => {
                           this.answerInput.clear()
                           this.questionInput.clear()
                           this.props.navigation.navigate('DeckView', {deckId: deck.title})
