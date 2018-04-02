@@ -11,6 +11,10 @@ class NewDeck extends React.Component {
    }
 
     submit(title) {
+        if (!title) {
+          return Alert.alert('Please fill in a title');
+        }
+
         return saveDeckTitle(title).then((deck) => {
             return this.props.dispatch(addDeck(deck));
         }).then(()=> {

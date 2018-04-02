@@ -7,7 +7,6 @@ export function clearLocalNotification() {
     return AsyncStorage.removeItem(NOTIFICATION_KEY)
       .then(Notifications.cancelAllScheduledNotificationsAsync)
   }
-  
 
 export function createNotification() {
     return {
@@ -25,44 +24,40 @@ export function createNotification() {
     }
 }
 
-export function setLocalNotification() {
-    AsyncStorage.getItem(NOTIFICATION_KEY)
-      .then(JSON.parse)
-      .then((data) => {
-        if (data === null) {
-          Permissions.askAsync(Permissions.NOTIFICATIONS)
-            .then(({ status }) => {
-              if (status === 'granted') {
-                // notify 5 seconds after the app starts
-                Notifications.cancelAllScheduledNotificationsAsync()
-                Notifications.scheduleLocalNotificationAsync(
-                  createNotification(),
-                  {
-                    time: new Date().getTime() + 5000,
-                    repeat: 'day',
-                  }
-                )
+export async function setLocalNotification() {
+    const notification = await AsyncStorage.getItem(NOTIFICATION_KEY);
+    const data = JSON.parse(notification);
+    if (data === null) {
+       const status = await Permissions.askAsync(Permissions.NOTIFICATIONS)
+          if (status === 'granted') {
+            // notify 5 seconds after the app starts
+            Notifications.cancelAllScheduledNotificationsAsync()
+            Notifications.scheduleLocalNotificationAsync(
+            createNotification(),
+            {
+              time: new Date().getTime() + 5000,
+              repeat: 'day',
+            }
+            )
   
-                AsyncStorage.setItem(NOTIFICATION_KEY, JSON.stringify(true))
-              }
-            })
-        }
-      }).catch((e) => alert(e))
-  }
+            AsyncStorage.setItem(NOTIFICATION_KEY, JSON.stringify(true))
+         }
+   }
+}
 
-  export function shuffleArray(array) {
+export function shuffleArray(array) {
     for(let i=0; i < array.length; i ++) {
         let newPosition = getRandomNumber(array.length);
         let temp = array[i];
         array[i] = array[newPosition];
         array[newPosition] = temp;
     }
-    
+
     return array;
   }
   
 
-  function getRandomNumber(max) {
+function getRandomNumber(max) {
     return Math.floor(Math.random() * Math.floor(max));
-  }
+}
   

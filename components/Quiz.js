@@ -62,6 +62,13 @@ class Quiz extends React.Component {
             .then(setLocalNotification)
     }
 
+    resetQuiz() {
+        this.setState({
+            currentQuestion:0, 
+            correctAnswers:0
+        });
+    }
+
     render() {
         const frontAnimatedStyle = {
             transform: [
@@ -105,7 +112,7 @@ class Quiz extends React.Component {
                     </View>
                 :    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
                        <Text style={{fontSize:50}}>Congrats, you have finished the quiz. Your score is {(correctAnswers / questions.length) * 100} %</Text>
-                       <TouchableOpacity style={styles.correctBtn} onPress={()=> this.props.navigation.navigate('Quiz',{deckId: deckId})}><Text style={{color: white, textAlign: 'center'}}>Restart Quiz</Text></TouchableOpacity>
+                       <TouchableOpacity style={styles.correctBtn} onPress={()=> this.resetQuiz()}><Text style={{color: white, textAlign: 'center'}}>Restart Quiz</Text></TouchableOpacity>
                        <TouchableOpacity style={styles.correctBtn} onPress={()=> this.props.navigation.navigate('DeckView', {deckId: deckId})}><Text style={{color: white, textAlign: 'center'}}>Back to Deck</Text></TouchableOpacity>
                     </View>
                 }
