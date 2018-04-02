@@ -49,3 +49,20 @@ export function setLocalNotification() {
         }
       }).catch((e) => alert(e))
   }
+
+  export function shuffleArray(array) {
+    for(let i=0; i < array.length; i ++) {
+        let newPosition = getRandomNumber(array.length);
+        let temp = array[i];
+        array[i] = array[newPosition];
+        array[newPosition] = temp;
+    }
+    
+    return array;
+  }
+  
+
+  function getRandomNumber(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+  }
+  

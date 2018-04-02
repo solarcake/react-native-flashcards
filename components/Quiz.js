@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet, View, Text, TouchableOpacity, Animated} from 'react-native';
 import {connect} from 'react-redux'
 import {red, green, white} from '../utils/colors'
+import {shuffleArray} from '../utils/helpers'
 import {clearLocalNotification, setLocalNotification} from '../utils/helpers'
 
 class Quiz extends React.Component {
@@ -144,9 +145,11 @@ const styles =  StyleSheet.create({
 
 function mapStateToProps (state, { navigation }) {
     const { deckId } = navigation.state.params
+    const deck = state[deckId];
     return {
       deckId,
-      deck: state[deckId]
+      deck: state[deckId],
+      questions: shuffleArray(deck.questions)
     }
 }
 
